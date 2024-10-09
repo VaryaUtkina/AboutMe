@@ -14,7 +14,11 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
+        welcomeVC.userName = userNameTF.text
     }
 
     @IBAction func loginButtonAction() {
@@ -28,6 +32,12 @@ final class LoginViewController: UIViewController {
     
     @IBAction func forgotPasswordAction() {
         showAlert(.password)
+    }
+    
+    @IBAction func unwind(for segue: UIStoryboardSegue) {
+        let welcomeVC = segue.source as? WelcomeViewController
+        userNameTF.text = ""
+        passwordTF.text = ""
     }
     
     private func showAlert(_ alertOption: Alert) {
@@ -53,7 +63,6 @@ final class LoginViewController: UIViewController {
         }
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             if alertOption == .wrongData {
-                self.userNameTF.text = ""
                 self.passwordTF.text = ""
             }
         }
