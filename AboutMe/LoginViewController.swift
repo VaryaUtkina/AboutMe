@@ -14,6 +14,11 @@ final class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIInputViewController.dismissKeyboard)
+        )
+        view.addGestureRecognizer(tap)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -35,9 +40,13 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
-        let welcomeVC = segue.source as? WelcomeViewController
+        _ = segue.source as? WelcomeViewController
         userNameTF.text = ""
         passwordTF.text = ""
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     private func showAlert(_ alertOption: Alert) {
