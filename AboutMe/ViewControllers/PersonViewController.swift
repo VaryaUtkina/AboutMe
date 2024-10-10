@@ -15,9 +15,20 @@ final class PersonViewController: UIViewController {
     @IBOutlet var surnameLabel: UILabel!
     @IBOutlet var postLabel: UILabel!
     
+    var user: User!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imageView.image = UIImage(named: user.photo)
+        nameLabel.text = user.person.name
+        surnameLabel.text = user.person.surname
+        postLabel.text = user.person.post
+        navigationItem.title = user.person.fullname
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let bioVC = segue.destination as? BioViewController else { return }
+        bioVC.user = user
     }
 
 }

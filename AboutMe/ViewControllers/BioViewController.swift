@@ -11,9 +11,12 @@ final class BioViewController: UIViewController {
 
     @IBOutlet var bioLabel: UILabel!
     
+    var user: User!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        bioLabel.text = user.person.bio
+        navigationItem.title = user.person.fullname
     }
     
 
