@@ -15,18 +15,14 @@ final class LoginViewController: UIViewController {
     private let user = User.getUser()
     
     override func viewDidLoad() {
-        userNameTF.text = user.userName
+        super.viewDidLoad()
+        userNameTF.text = user.login
         passwordTF.text = user.password
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let tabBarVC = segue.destination as? UITabBarController else { return }
-        let welcomeVC = tabBarVC.viewControllers?.first as? WelcomeViewController
-        welcomeVC?.userName = user.person.fullname
-        let navigationVC = tabBarVC.viewControllers?.last as? UINavigationController
-        let personVC = navigationVC?.topViewController as? PersonViewController
-        personVC?.user = user
-        
+        guard let tabBarVC = segue.destination as? TabBarController else { return }
+        tabBarVC.user = user
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -35,7 +31,7 @@ final class LoginViewController: UIViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        guard userNameTF.text == user.userName, passwordTF.text == user.password else {
+        guard userNameTF.text == user.login, passwordTF.text == user.password else {
             showAlert(
                 title: "Invalid login or password",
                 message: "Please, enter correct login and password") {
@@ -47,7 +43,7 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction func forgotNameAction() {
-        showAlert(title: "Ooops", message: "User name is \(user.userName)😉")
+        showAlert(title: "Ooops", message: "User name is \(user.login)😉")
     }
     
     @IBAction func forgotPasswordAction() {

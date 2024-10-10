@@ -301,7 +301,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="osJ-s9-fF3">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="UoD-8o-n3G" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="UoD-8o-n3G" customClass="TabBarController" customModule="AboutMe" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aio-tl-zmg">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

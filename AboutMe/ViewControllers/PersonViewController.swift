@@ -19,7 +19,8 @@ final class PersonViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = UIImage(named: user.photo)
+        view.addVerticalGradientLayer()
+        imageView.image = UIImage(named: user.person.photo)
         nameLabel.text = user.person.name
         surnameLabel.text = user.person.surname
         postLabel.text = user.person.post
