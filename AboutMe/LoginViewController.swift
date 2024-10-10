@@ -8,83 +8,59 @@
 import UIKit
 
 final class LoginViewController: UIViewController {
-
+    
     @IBOutlet var userNameTF: UITextField!
     @IBOutlet var passwordTF: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let tap = UITapGestureRecognizer(
-            target: self,
-            action: #selector(UIInputViewController.dismissKeyboard)
-        )
-        view.addGestureRecognizer(tap)
-    }
+    private let user = "User"
+    private let password = "Password"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-        welcomeVC.userName = userNameTF.text
+        welcomeVC.userName = user
     }
-
-    @IBAction func loginButtonAction() {
-        guard userNameTF.text == "UserName" else { return showAlert(.wrongData) }
-        guard passwordTF.text == "Password" else { return showAlert(.wrongData) }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        guard userNameTF.text == user, passwordTF.text == password else {
+            showAlert(
+                title: "Invalid login or password",
+                message: "Please, enter correct login and password") {
+                    self.passwordTF.text = ""
+                }
+            return false
+        }
+        return true
     }
     
     @IBAction func forgotNameAction() {
-        showAlert(.name)
+        showAlert(title: "Ooops", message: "User name is \(user)😉")
     }
     
     @IBAction func forgotPasswordAction() {
-        showAlert(.password)
+        showAlert(title: "Ooops", message: "Password is \(password)😉")
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
-        _ = segue.source as? WelcomeViewController
         userNameTF.text = ""
         passwordTF.text = ""
     }
     
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    private func showAlert(_ alertOption: Alert) {
-        let alert = switch alertOption {
-        case .password:
-            UIAlertController(
-                title: "Ooops",
-                message: "Password is password😉",
-                preferredStyle: .alert
-            )
-        case .name:
-            UIAlertController(
-                title: "Ooops",
-                message: "User name is UserName😉",
-                preferredStyle: .alert
-            )
-        case .wrongData:
-            UIAlertController(
-                title: "Invalid login or password",
-                message: "Please, enter correct login and password",
-                preferredStyle: .alert
-            )
-        }
+    private func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            if alertOption == .wrongData {
-                self.passwordTF.text = ""
-            }
+            completion?()
         }
         alert.addAction(okAction)
         present(alert, animated: true)
-    }
-}
-
-extension LoginViewController {
-    enum Alert {
-        case password
-        case name
-        case wrongData
     }
 }
 
